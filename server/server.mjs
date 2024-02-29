@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import users from "./routes/users.mjs";
+import cors from "cors";
 
 dotenv.config();
 mongoose.connect(process.env.ATLAS_URI);
@@ -17,6 +18,7 @@ db.once("open", () => console.log("DB connected")); // test db connection
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
+app.use(cors());
 // --------------------------------------------------------------- //
 app.get("/", (req, res) => {
   res.json({ status: req.body });
