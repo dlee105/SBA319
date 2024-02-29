@@ -1,0 +1,15 @@
+body {
+  background-color: black;
+}
+
+.card-cont {
+  padding: 1.5rem;
+  margin-right: 0;
+  margin-left: 0;
+  border: 1px solid silver;
+  border-width: 1px;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}

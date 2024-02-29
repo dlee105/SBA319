@@ -26,8 +26,9 @@ const userSchema = new mongoose.Schema({
   age: {
     type: Number,
   },
-  roles: {
-    type: [String],
+  userType: {
+    type: String,
+    required: true,
   },
   address: {
     street: String,
