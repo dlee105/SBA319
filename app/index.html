@@ -15,11 +15,12 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script defer type="module" src="index.js"></script>
     <title>Document</title>
   </head>
-  <body>
-    <div class="container mt-2">
+  <body class="">
+    <div class="container mt-2 bg-light">
       <div class="row">
         <div class="col">
           <nav aria-label="breadcrumb" class="bg-dark rounded-3 p-3 mb-4">
@@ -30,8 +31,31 @@
           </nav>
         </div>
       </div>
-    <div class="card-cont">
+      <div class="text-center align-middle p-0"> 
+        <h1>PEOPLE</h1>
+        <button type="button" class="btn btn-outline-dark mb-3" id="pdrop1" >
+          <span class="material-symbols-outlined" id="pdrop2">
+              expand_more
+          </span>
+        </button>
+      </div>
+      
+    <div class="card-cont people-form" id="people-form">
       <div class="container-sm border-sm" id="USER_DISPLAY"></div>
+    </div>
+    
+    
+    <div class="text-center mt-5 border-top"> 
+      <h1>COURSES</h1> 
+      <button type="button" class="btn btn-outline-dark mb-3" id="cdrop1" >
+      <span class="material-symbols-outlined" id="cdrop2">
+          expand_more
+      </span>
+      </button>
+    </div>
+    <div class="card-cont courses-form" id="courses-form">
+      <div class="container border bg-warning-subtle p-0" id="COURSE_DISPLAY">
+      </div>
     </div>
   </body>
 </html>

@@ -23,20 +23,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  age: {
-    type: Number,
-  },
   userType: {
     type: String,
+    enum: ["teacher", "student"],
     required: true,
   },
-  address: {
-    street: String,
-    city: String,
-    state: String,
-    zipcode: String,
-  },
 });
+
+userSchema.index({ username: 1 }); // Index for username
+userSchema.index({ email: 1 }); // Index for email
+userSchema.index({ userType: 1 }); // Index for userType
 
 const User = mongoose.model("Users", userSchema);
 

@@ -1,5 +1,4 @@
 import express from "express";
-import db from "../databases/connection.mjs";
 import users from "../models/usersSchema.mjs";
 const router = express.Router();
 
@@ -19,6 +18,7 @@ router.post("/", async (req, res) => {
     password: req.body.password,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    userType: req.body.userType,
   });
 
   try {

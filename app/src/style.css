@@ -1,5 +1,12 @@
 body {
-  background-color: black;
+}
+
+.people-form {
+  display: none;
+}
+
+.courses-form {
+  display: none;
 }
 
 .card-cont {

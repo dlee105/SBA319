@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import users from "./routes/users.mjs";
+import courses from "./routes/courses.mjs";
 import cors from "cors";
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", users);
+app.use("/courses", courses);
 // ERROR---------------------------------------------------------- //
 db.on("error", (error) => console.log(error));
 app.use((err, _req, res, next) => {
