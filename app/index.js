@@ -39,6 +39,24 @@ async function loadCourses() {
     });
 }
 
+async function loadAnnouncements() {
+  await fetch("http://localhost:3000/announcements", {
+    mode: "cors",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
+    .then((res) => {
+      res.json().then((data) => {
+        createCourseCard(data);
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 // FRONTEND LOADING - >>>>>
 loadUsers();
 loadCourses();
+loadAnnouncements();

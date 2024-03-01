@@ -1,6 +1,7 @@
 import express from "express";
 import announcements from "../models/announcementSchema.mjs";
 const router = express.Router();
+const currentDate = new Date();
 
 router.get("/", async (req, res) => {
   try {
@@ -17,8 +18,6 @@ router.post("/", async (req, res) => {
     title: req.body.title,
     content: req.body.content,
     author: req.body.author,
-    createdAt: date.getDate(),
-    updatedAt: date.getDate(),
   });
 
   try {
@@ -39,10 +38,7 @@ router.patch("/:id", getAnnouncementId, async (req, res) => {
   if (req.body.title != null) res.announcement.title = req.body.title;
   if (req.body.content != null) res.announcement.content = req.body.content;
   if (req.body.author != null) res.announcement.author = req.body.author;
-  if (req.body.createdAt != null)
-    res.announcement.createdAt = req.body.createdAt;
-  if (req.body.updatedAt != null)
-    res.announcement.updatedAt = req.body.updatedAt;
+  res.announcement.updatedAt = currentDate;
 
   try {
     const updatedCourse = await res.announcement.save();
@@ -71,7 +67,7 @@ async function getAnnouncementId(req, res, next) {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-  res.course = course;
+  res.announcement = announcement;
   next();
 }
 

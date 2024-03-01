@@ -1,5 +1,6 @@
 const userDisplayEl = document.getElementById("USER_DISPLAY");
 const courseDisplayEl = document.getElementById("COURSE_DISPLAY");
+const announcementsDisplayEl = document.getElementById("ANNOUNCEMENTS_DISPLAY");
 
 export function createUserCard(usersArr) {
   for (let user of usersArr) {
@@ -23,6 +24,7 @@ export function createUserCard(usersArr) {
     // userRow.setAttribute("id", user._id);
     userRow.innerHTML = `
       <div class=" text-center">
+        <div>ID: ${user._id}</div>
         <h2>${user.firstName} ${user.lastName}</h2>
         <div>Username: ${user.username}</div>
         <div>Email: ${user.email}</div> 
@@ -87,6 +89,8 @@ export function createCourseCard(courseArr) {
     courseDisplayEl.appendChild(courseRow);
   }
 }
+
+export function createAnnouncementCard(announcementArr) {}
 
 export function togglePeopleDisplay() {
   const peopleDisplay = document.getElementById("people-form");
