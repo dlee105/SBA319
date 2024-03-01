@@ -42,12 +42,16 @@ export function createCourseCard(courseArr) {
       "bg-dark",
       "m-0",
       "d-flex",
-      "flex-column"
+      "flex-column",
+      "py-2"
     );
     findUserByID(course.instructor).then((res) => {
-      courseHeader.innerHTML = `<h3>${course.courseName}</h3><h4>Instructor: ${res.firstName} ${res.lastName}</h4>`;
+      courseHeader.innerHTML = `<h3>${course.courseName}</h3>
+                                <h4>Instructor: ${res.firstName} ${res.lastName}</h4>
+                                <p class="fst-italic">${course.description}</p>`;
     });
     courseRow.setAttribute("id", course._id);
+    courseRow.classList.add("mb-3", "border", "bg-warning-subtle");
     courseRow.appendChild(courseHeader);
     let thisCourseStudents = document.createElement("div");
     thisCourseStudents.classList.add(
@@ -70,6 +74,7 @@ export function createCourseCard(courseArr) {
       });
     }
     courseRow.appendChild(thisCourseStudents);
+
     courseDisplayEl.appendChild(courseRow);
   }
 }

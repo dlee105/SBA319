@@ -35,8 +35,8 @@ router.delete("/:id", async (req, res) => {});
 async function getCourseId(req, res, next) {
   let course;
   try {
-    user = await courses.findById(req.params.id);
-    if (user == null) {
+    course = await courses.findById(req.params.id);
+    if (course == null) {
       return res.status(404).json({ message: "Users does not exist" });
     }
   } catch (error) {
