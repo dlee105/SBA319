@@ -2,6 +2,8 @@ import express from "express";
 import users from "../models/usersSchema.mjs";
 const router = express.Router();
 
+// hello
+
 router.get("/", async (req, res) => {
   // GET ALL USERS
   try {
