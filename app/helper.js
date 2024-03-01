@@ -10,15 +10,19 @@ export function createUserCard(usersArr) {
     userRow.classList.add(
       "text-dark",
       "row",
-      "d-flex",
       "p-3",
       "mb-2",
       "bg-gradient",
-      "rounded-3"
+      "rounded-3",
+      "me-3"
     );
+    userRow.style.maxWidth = "21vw";
+    userRow.style.minWidth = "21vw";
+
+    // userRow.style.minWidth = "25vw";
     // userRow.setAttribute("id", user._id);
     userRow.innerHTML = `
-      <div class="mb-3 text-center">
+      <div class=" text-center">
         <h2>${user.firstName} ${user.lastName}</h2>
         <div>Username: ${user.username}</div>
         <div>Email: ${user.email}</div> 
@@ -58,8 +62,12 @@ export function createCourseCard(courseArr) {
       "d-flex",
       "mb-3",
       "bg-light",
-      "p-3",
-      "mx-3"
+      "pt-3",
+      "ps-3",
+      "pe-3",
+      "mx-3",
+      "d-flex",
+      "flex-wrap"
     );
     let studentHeader = document.createElement("h5");
     studentHeader.classList.add("px-3", "py-2");
@@ -68,7 +76,8 @@ export function createCourseCard(courseArr) {
     for (let student of course.student) {
       findUserByID(student).then((res) => {
         let studentBox = document.createElement("div");
-        studentBox.classList.add("p-2", "bg-primary-subtle", "me-2");
+        studentBox.classList.add("p-2", "bg-primary-subtle", "me-2", "mb-3");
+        studentBox.style.minWidth = "125px";
         studentBox.innerText = `${res.firstName + " " + res.lastName}`;
         thisCourseStudents.appendChild(studentBox);
       });

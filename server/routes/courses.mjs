@@ -27,10 +27,33 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {});
-router.post("/:id", async (req, res) => {});
-router.patch("/:id", async (req, res) => {});
-router.delete("/:id", async (req, res) => {});
+router.get("/:id", getCourseId, async (req, res) => {
+  res.send(res.course);
+});
+
+router.patch("/:id", getCourseId, async (req, res) => {
+  if (req.body.courseName != null) res.course.courseName = req.body.courseName;
+  if (req.body.description != null)
+    res.course.description = req.body.description;
+  if (req.body.instructor != null) res.course.instructor = req.body.instructor;
+  if (req.body.student != null) res.course.student = req.body.student;
+
+  try {
+    const updatedCourse = await res.course.save();
+    res.json(updatedCourse);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+});
+
+router.delete("/:id", getCourseId, async (req, res) => {
+  try {
+    await res.course.deleteOne();
+    res.json({ message: "course deleted" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
 
 async function getCourseId(req, res, next) {
   let course;
