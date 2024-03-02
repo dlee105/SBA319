@@ -3,6 +3,7 @@ import {
   togglePeopleDisplay,
   createCourseCard,
   createUserCard,
+  createAnnouncementCard,
 } from "./helper.js";
 
 // PAGE LOAD FUNCTIONS - >>>
@@ -48,7 +49,7 @@ async function loadAnnouncements() {
   })
     .then((res) => {
       res.json().then((data) => {
-        createCourseCard(data);
+        createAnnouncementCard(data);
       });
     })
     .catch((error) => {

@@ -90,7 +90,42 @@ export function createCourseCard(courseArr) {
   }
 }
 
-export function createAnnouncementCard(announcementArr) {}
+export function createAnnouncementCard(announcementArr) {
+  for (let post of announcementArr) {
+    console.log(post);
+    let postRow = document.createElement("div");
+    postRow.classList.add("bg-dark", "text-light", "mb-3", "pb-2");
+    let postHeader = document.createElement("div");
+    postHeader.classList.add(
+      "d-flex",
+      "justify-content-between",
+      "px-5",
+      "py-3"
+    );
+    let pTitle = document.createElement("h4");
+    pTitle.innerText = post.title;
+    let pAuthor = document.createElement("p");
+    findUserByID(post.author).then((res) => {
+      pTitle.innerText = post.title;
+      pAuthor.innerText = res.firstName + " " + res.lastName;
+      postHeader.appendChild(pTitle);
+      postHeader.appendChild(pAuthor);
+      postRow.appendChild(postHeader);
+      let desc = document.createElement("div");
+      desc.classList.add("mx-3", "bg-light", "text-dark", "p-3");
+      desc.innerHTML = `<p>${post.content}</p>`;
+      postRow.appendChild(desc);
+      let buttons = document.createElement("div");
+      buttons.innerHTML = `
+                          <div class="d-flex justify-content-end mb-2 pt-3 pe-3" id="${post._id}">
+                              <button type="button" class="btn btn-primary" value="edit">Edit</button>
+                              <button type="button" class="btn btn-danger ms-1" value="remove">Remove</button>
+                          </div>`;
+      postRow.appendChild(buttons);
+      announcementsDisplayEl.appendChild(postRow);
+    });
+  }
+}
 
 export function togglePeopleDisplay() {
   const peopleDisplay = document.getElementById("people-form");
@@ -110,6 +145,15 @@ export function toggleCourseDisplay() {
   }
 }
 
+export function togglePostDisplay() {
+  const postDisplay = document.getElementById("announcements-form");
+  if ([...postDisplay.classList].includes("announcements-form")) {
+    postDisplay.classList.remove("announcements-form");
+  } else {
+    postDisplay.classList.add("announcements-form");
+  }
+}
+
 async function findUserByID(id) {
   // return a promise object use additional then((res) => res)
   let res = await fetch(`http://localhost:3000/users/${id}`, {
@@ -126,13 +170,15 @@ async function findUserByID(id) {
 
 window.addEventListener("click", (e) => {
   if (e.target.value === "remove") {
-    console.log("removing", e.target.parentNode.id);
+    console.log("removing", e.target.parentNode, e.target);
   } else if (e.target.value === "edit") {
-    console.log("editing", e.target.parentNode.id);
+    console.log("editing", e.target.parentNode, e.target);
   } else if (["pdrop1", "pdrop2"].includes(e.target.id)) {
     // console.log("p-arrow");
     togglePeopleDisplay();
   } else if (["cdrop1", "cdrop2"].includes(e.target.id)) {
     toggleCourseDisplay();
+  } else if (["adrop1", "adrop2"].includes(e.target.id)) {
+    togglePostDisplay();
   }
 });

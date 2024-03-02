@@ -6,6 +6,10 @@
   display: none;
 }
 
+.announcements-form {
+  display: none;
+}
+
 .card-cont {
   padding: 1.5rem;
   margin-right: 0;
