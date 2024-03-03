@@ -136,7 +136,7 @@ export function togglePeopleDisplay() {
   }
 }
 
-export function toggleCourseDisplay() {
+function toggleCourseDisplay() {
   const coursesDisplay = document.getElementById("courses-form");
   if ([...coursesDisplay.classList].includes("courses-form")) {
     coursesDisplay.classList.remove("courses-form");
@@ -145,7 +145,7 @@ export function toggleCourseDisplay() {
   }
 }
 
-export function togglePostDisplay() {
+function togglePostDisplay() {
   const postDisplay = document.getElementById("announcements-form");
   if ([...postDisplay.classList].includes("announcements-form")) {
     postDisplay.classList.remove("announcements-form");

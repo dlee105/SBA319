@@ -1,6 +1,4 @@
 import {
-  toggleCourseDisplay,
-  togglePeopleDisplay,
   createCourseCard,
   createUserCard,
   createAnnouncementCard,
