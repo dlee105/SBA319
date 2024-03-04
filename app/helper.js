@@ -2,6 +2,10 @@ const userDisplayEl = document.getElementById("USER_DISPLAY");
 const courseDisplayEl = document.getElementById("COURSE_DISPLAY");
 const announcementsDisplayEl = document.getElementById("ANNOUNCEMENTS_DISPLAY");
 
+const USER_ID = (await getAllUser()).map((obj) => obj._id);
+const ANNOUNCEMENTS_ID = (await getAllAnnouncement()).map((obj) => obj._id);
+const COURSES_ID = (await getAllCourse()).map((obj) => obj._id);
+
 export function createUserCard(usersArr) {
   for (let user of usersArr) {
     let userRow = document.createElement("div");
@@ -82,8 +86,16 @@ export function createCourseCard(courseArr) {
         studentBox.style.minWidth = "125px";
         studentBox.innerText = `${res.firstName + " " + res.lastName}`;
         thisCourseStudents.appendChild(studentBox);
+        buttons.innerHTML = `
+                        <div class="d-flex justify-content-end mb-2 pt-3 pe-3" id="${course._id}">
+                            <button type="button" class="btn btn-light border" value="edit">Edit</button>
+                            <button type="button" class="btn btn-light border ms-1" value="remove">Remove</button>
+                        </div>`;
+        courseRow.appendChild(buttons);
       });
     }
+    let buttons = document.createElement("div");
+
     courseRow.appendChild(thisCourseStudents);
 
     courseDisplayEl.appendChild(courseRow);
@@ -92,7 +104,6 @@ export function createCourseCard(courseArr) {
 
 export function createAnnouncementCard(announcementArr) {
   for (let post of announcementArr) {
-    console.log(post);
     let postRow = document.createElement("div");
     postRow.classList.add("bg-dark", "text-light", "mb-3", "pb-2");
     let postHeader = document.createElement("div");
@@ -154,6 +165,8 @@ function togglePostDisplay() {
   }
 }
 
+// API FUNCTIONS
+
 async function findUserByID(id) {
   // return a promise object use additional then((res) => res)
   let res = await fetch(`http://localhost:3000/users/${id}`, {
@@ -168,11 +181,120 @@ async function findUserByID(id) {
   return data;
 }
 
+async function removeUser(id) {
+  await fetch(`http://localhost:3000/users/${id}`, {
+    mode: "cors",
+    method: "DELETE",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
+    .then((res) => {
+      location.reload();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+async function removeCourse(id) {
+  await fetch(`http://localhost:3000/courses/${id}`, {
+    mode: "cors",
+    method: "DELETE",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
+    .then((res) => {
+      console.log(res);
+      location.reload();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+async function removeAnnouncement(id) {
+  await fetch(`http://localhost:3000/announcements/${id}`, {
+    mode: "cors",
+    method: "DELETE",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
+    .then((res) => {
+      console.log(res);
+      location.reload();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+async function getAllUser() {
+  let res = await fetch("http://localhost:3000/users", {
+    mode: "cors",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  let data = await res.json();
+  data = JSON.stringify(data);
+  data = JSON.parse(data);
+  return data;
+}
+
+async function getAllCourse() {
+  let res = await fetch("http://localhost:3000/courses", {
+    mode: "cors",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  let data = await res.json();
+  data = JSON.stringify(data);
+  data = JSON.parse(data);
+  return data;
+}
+
+async function getAllAnnouncement() {
+  let res = await fetch("http://localhost:3000/announcements", {
+    mode: "cors",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  let data = await res.json();
+  data = JSON.stringify(data);
+  data = JSON.parse(data);
+  return data;
+}
+
+// console.log(USER_ID, COURSES_ID, ANNOUNCEMENTS_ID);
+
 window.addEventListener("click", (e) => {
+  const id = e.target.parentNode.id;
   if (e.target.value === "remove") {
-    console.log("removing", e.target.parentNode, e.target);
+    console.log("removing...", id);
+    if (USER_ID.includes(id)) {
+      if (window.confirm(`You are deleting user: ${id}. Are you sure?`)) {
+        removeUser(id);
+      }
+    } else if (ANNOUNCEMENTS_ID.includes(id)) {
+      if (
+        window.confirm(`You are deleting announcement: ${id}. Are you sure?`)
+      ) {
+        removeAnnouncement(id);
+      }
+    } else if (COURSES_ID.includes(id)) {
+      if (window.confirm(`You are deleting course: ${id}. Are you sure?`)) {
+        removeCourse(id);
+      }
+    }
+    /////////////////////////////////////////////////////////////////////////
   } else if (e.target.value === "edit") {
-    console.log("editing", e.target.parentNode, e.target);
+    console.log("editing", e.target.parentNode.id);
+    /////////////////////////////////////////////////////////////////////////
   } else if (["pdrop1", "pdrop2"].includes(e.target.id)) {
     // console.log("p-arrow");
     togglePeopleDisplay();
