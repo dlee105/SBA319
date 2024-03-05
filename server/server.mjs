@@ -2,18 +2,22 @@ import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import cors from "cors";
+
+// ROUTES
 import users from "./routes/users.mjs";
 import courses from "./routes/courses.mjs";
 import announcements from "./routes/announcement.mjs";
+
+// SCHEMAS
 import User from "./models/usersSchema.mjs";
 import Announcement from "./models/announcementSchema.mjs";
 import Course from "./models/courseSchema.mjs";
 
+//SEEDING
 import { USER_JSON } from "./utilities/users.mjs";
 import { POST_JSON } from "./utilities/announcements.mjs";
 import { COURSE_JSON } from "./utilities/courses.mjs";
-
-import cors from "cors";
 
 dotenv.config();
 mongoose.connect(process.env.ATLAS_URI);
@@ -29,7 +33,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
 app.use(cors());
-// --------------------------------------------------------------- //
+// ---------------------SEEDING----------------------------------- //
 app.get("/seedUser", async (req, res) => {
   await User.deleteMany({});
   await User.create(USER_JSON);
@@ -38,12 +42,12 @@ app.get("/seedUser", async (req, res) => {
 
 app.get("/seedCourses", async (req, res) => {
   await Course.deleteMany({});
-  const AllTeacher = await User.find({ userType: "teacher" });
 
-  const getRandomTeacherId = () => {
-    const random = Math.floor(Math.random() * AllTeacher.length);
-    return AllTeacher[random]._id;
-  };
+  const AllTeacher = await User.find({ userType: "teacher" });
+  let course_data = [...COURSE_JSON];
+  for (let i in AllTeacher) {
+    course_data[i].instructor = AllTeacher[i]._id;
+  }
 
   const getRandomStudentId = async () => {
     const random5 = await User.aggregate([
@@ -59,17 +63,14 @@ app.get("/seedCourses", async (req, res) => {
 
   const CourseList = async () => {
     const random_students = await getRandomStudentId();
-    const random_teacher = getRandomTeacherId();
-    const temp = COURSE_JSON.map((course) => ({
+    const temp = course_data.map((course) => ({
       ...course,
-      instructor: random_teacher,
       student: [...random_students],
     }));
     return temp;
   };
 
   let data = await CourseList();
-
   await Course.create(data);
   res.send({ res: data });
 });
@@ -78,16 +79,14 @@ app.get("/seedAnnouncements", async (req, res) => {
   await Announcement.deleteMany({});
   const AllTeacher = await User.find({ userType: "teacher" });
 
-  const getRandomTeacherId = () => {
-    const random = Math.floor(Math.random() * AllTeacher.length);
-    return AllTeacher[random]._id;
-  };
+  let post_data = [...POST_JSON];
+  for (let i in AllTeacher) {
+    post_data[i].author = AllTeacher[i]._id;
+  }
 
   const PostList = async () => {
-    const random_teacher = getRandomTeacherId();
-    const temp = POST_JSON.map((post) => ({
+    const temp = post_data.map((post) => ({
       ...post,
-      author: random_teacher,
     }));
     return temp;
   };
